@@ -1,4 +1,7 @@
-n8n 
-its good if you want it locally , no hidden charges. 
-1. use to create an workflow that will send me weather updates 
-<img width="1165" height="573" alt="image" src="https://github.com/user-attachments/assets/fa3bbf3a-63d5-45e9-9bd0-0bed90277c1b" />
+# n8n Workflows
+I used n8n mainly because it's simple, effective and easy to understand. 
+In this repo, these three workflows will be explored:
+
+- A simple daily weather email automation.
+- A sponsorship intake workflow using forms, Google Sheets, and conditional logic.
+- A personal AI assistant using the AI Agent node that can read sheets, summarize leads, and call other workflows.
