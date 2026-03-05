@@ -1,21 +1,46 @@
-step 1:
-<img width="1365" height="653" alt="image" src="https://github.com/user-attachments/assets/80196677-5245-45a3-a926-0f27f7dec593" />
-step 2:
-<img width="1358" height="609" alt="image" src="https://github.com/user-attachments/assets/20ac3e10-92c5-4074-920f-aa1739d9ef29" />
+# Sponsorship Automation in n8n (Simple Guide)
 
-step 3:
-<img width="1351" height="574" alt="image" src="https://github.com/user-attachments/assets/4f24ba8c-d063-428a-bc19-e7a857bc338c" />
+This workflow helps you collect sponsorship details, save them to Google Sheets, and send an email automatically.
 
-step 4:
-<img width="1357" height="602" alt="image" src="https://github.com/user-attachments/assets/618d8e34-c077-4dd2-8faf-a66bcddeff61" />
+## Step-by-Step
 
-step 5:
-<img width="1365" height="640" alt="image" src="https://github.com/user-attachments/assets/4febdf6b-19be-4fdd-b4e9-ef52cf0a7915" />
+### Step 1
+Set up the trigger/start node.
 
-step 6:
-<img width="1334" height="582" alt="image" src="https://github.com/user-attachments/assets/05aaad64-12bc-49ab-98d7-8732e9c40138" />
+![Step 1](https://github.com/user-attachments/assets/80196677-5245-45a3-a926-0f27f7dec593)
 
+### Step 2
+Configure input fields for sponsorship data.
 
-final workflow 
-<img width="1170" height="568" alt="image" src="https://github.com/user-attachments/assets/88efc1fc-cb5b-4318-beb8-54cfd3fb3049" />
-automatically saved in sheets and send the mail for you as well <img width="1353" height="173" alt="image" src="https://github.com/user-attachments/assets/06080161-e425-4e48-9d10-f5b19ebf997d" />
+![Step 2](https://github.com/user-attachments/assets/20ac3e10-92c5-4074-920f-aa1739d9ef29)
+
+### Step 3
+Process and prepare the data.
+
+![Step 3](https://github.com/user-attachments/assets/4f24ba8c-d063-428a-bc19-e7a857bc338c)
+
+### Step 4
+Connect the data flow to output services.
+
+![Step 4](https://github.com/user-attachments/assets/618d8e34-c077-4dd2-8faf-a66bcddeff61)
+
+### Step 5
+Map the fields correctly for storage and email.
+
+![Step 5](https://github.com/user-attachments/assets/4febdf6b-19be-4fdd-b4e9-ef52cf0a7915)
+
+### Step 6
+Finish and test the complete automation.
+
+![Step 6](https://github.com/user-attachments/assets/05aaad64-12bc-49ab-98d7-8732e9c40138)
+
+## Final Workflow
+
+![Final workflow](https://github.com/user-attachments/assets/88efc1fc-cb5b-4318-beb8-54cfd3fb3049)
+
+## Result
+
+- Sponsorship details are saved automatically in Google Sheets.
+- Confirmation/notification email is sent automatically.
+
+![Auto save and email](https://github.com/user-attachments/assets/06080161-e425-4e48-9d10-f5b19ebf997d)
