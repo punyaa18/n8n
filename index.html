@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How I Built 3 Practical n8n Automations</title>
+    <meta
+      name="description"
+      content="A practical walkthrough of three n8n workflows: daily weather updates, sponsorship automation, and a local AI assistant with Ollama."
+    />
+    <style>
+      :root {
+        --bg: #fff7ed;
+        --bg-accent: #ffedd5;
+        --card: #fffef8;
+        --text: #1f2937;
+        --muted: #475569;
+        --title: #9a3412;
+        --primary: #0f766e;
+        --primary-soft: #99f6e4;
+        --border: #fed7aa;
+        --shadow: 0 12px 40px rgba(120, 53, 15, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 15% 10%, #ffedd5 0%, transparent 35%),
+          radial-gradient(circle at 85% 0%, #d1fae5 0%, transparent 28%),
+          linear-gradient(180deg, var(--bg) 0%, #fffbeb 100%);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: min(1050px, 92vw);
+        margin: 0 auto;
+      }
+
+      header {
+        padding: 4.5rem 0 2.5rem;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--primary);
+        background: var(--primary-soft);
+        padding: 0.35rem 0.6rem;
+        border-radius: 0.45rem;
+      }
+
+      h1 {
+        margin: 0.9rem 0 0.8rem;
+        font-size: clamp(2rem, 4.4vw, 3.4rem);
+        line-height: 1.12;
+        color: var(--title);
+      }
+
+      .lead {
+        max-width: 72ch;
+        font-size: 1.08rem;
+        color: var(--muted);
+      }
+
+      .quick-links {
+        margin-top: 1.4rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+      }
+
+      .quick-links a {
+        text-decoration: none;
+        color: var(--primary);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.45rem 0.85rem;
+        background: #ffffffcc;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      .quick-links a:hover {
+        transform: translateY(-2px);
+        background: #ffffff;
+      }
+
+      main {
+        padding-bottom: 4rem;
+      }
+
+      section.card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1.1rem;
+        padding: 1.35rem;
+        margin: 1.2rem 0;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateY(16px);
+        animation: rise 650ms ease forwards;
+      }
+
+      section.card:nth-of-type(2) {
+        animation-delay: 120ms;
+      }
+
+      section.card:nth-of-type(3) {
+        animation-delay: 220ms;
+      }
+
+      section.card:nth-of-type(4) {
+        animation-delay: 320ms;
+      }
+
+      h2 {
+        margin: 0 0 0.45rem;
+        color: #7c2d12;
+        font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+      }
+
+      h3 {
+        color: #0f172a;
+      }
+
+      .sub {
+        margin-top: 0;
+        color: var(--muted);
+      }
+
+      .workflow-image {
+        margin: 0.95rem 0 0.3rem;
+      }
+
+      .workflow-image img {
+        width: 100%;
+        border-radius: 0.9rem;
+        border: 1px solid #e2e8f0;
+        display: block;
+      }
+
+      .workflow-image figcaption {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-top: 0.45rem;
+      }
+
+      ul {
+        padding-left: 1.1rem;
+      }
+
+      .conclusion {
+        border-left: 5px solid var(--primary);
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 1.4rem 0 2.8rem;
+        color: #334155;
+      }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 700px) {
+        header {
+          padding-top: 3.2rem;
+        }
+
+        .lead {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <span class="eyebrow">Automation Journal</span>
+        <h1>How I Built 3 Practical n8n Automations</h1>
+        <p class="lead">
+          I picked <strong>n8n</strong> because it is easy to understand, fast to
+          prototype in, and flexible enough to connect APIs, forms, sheets, and
+          AI workflows. This post documents three automations I built and how
+          each one solves a real small-business or personal productivity use case.
+        </p>
+        <div class="quick-links">
+          <a href="#weather">Weather Updates</a>
+          <a href="#sponsorship">Sponsorship Intake</a>
+          <a href="#ai-assistant">AI Assistant</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="weather" class="card">
+        <h2>1. Daily Weather Update Workflow</h2>
+        <p class="sub">
+          A lightweight scheduled automation that fetches weather data via API
+          and sends updates through your preferred channel.
+        </p>
+
+        <h3>How it works</h3>
+        <ul>
+          <li>Use a <strong>Schedule Trigger</strong> to run every day (for example, 7:00 AM).</li>
+          <li>Add an <strong>HTTP Request</strong> node to call the weather API.</li>
+          <li>Format the response in a Set/Code node and route it to email, Slack, or Telegram.</li>
+        </ul>
+
+        <p>
+          One practical note: weather API keys may not activate instantly and can
+          take from minutes to several hours, so initial test failures can be
+          normal.
+        </p>
+
+        <figure class="workflow-image">
+          <img
+            src="https://github.com/user-attachments/assets/231f7174-017d-4be3-b302-a3644f72e136"
+            alt="Final weather workflow in n8n"
+          />
+          <figcaption>Final weather automation workflow.</figcaption>
+        </figure>
+      </section>
+
+      <section id="sponsorship" class="card">
+        <h2>2. Sponsorship Intake Automation</h2>
+        <p class="sub">
+          This flow captures sponsorship data, stores it in Google Sheets, and
+          sends follow-up communication automatically.
+        </p>
+
+        <h3>Why this is useful</h3>
+        <ul>
+          <li>Stops lead information from getting lost in inboxes.</li>
+          <li>Creates a reliable single source of truth in Sheets.</li>
+          <li>Triggers immediate confirmations or internal alerts.</li>
+        </ul>
+
+        <h3>Flow outline</h3>
+        <ul>
+          <li>Trigger on form submission or webhook.</li>
+          <li>Map and clean incoming fields.</li>
+          <li>Write rows into Google Sheets.</li>
+          <li>Send a confirmation/notification email.</li>
+        </ul>
+
+        <figure class="workflow-image">
+          <img
+            src="https://github.com/user-attachments/assets/88efc1fc-cb5b-4318-beb8-54cfd3fb3049"
+            alt="Final sponsorship workflow in n8n"
+          />
+          <figcaption>Final sponsorship intake and notification workflow.</figcaption>
+        </figure>
+      </section>
+
+      <section id="ai-assistant" class="card">
+        <h2>3. Local AI Assistant with n8n + Ollama</h2>
+        <p class="sub">
+          This workflow connects n8n's AI capabilities with Ollama so you can run
+          assistant-style automations locally.
+        </p>
+
+        <h3>What it does</h3>
+        <ul>
+          <li>Accepts a user prompt inside n8n.</li>
+          <li>Sends the prompt to Ollama for generation.</li>
+          <li>Returns a response that can be reused in downstream nodes.</li>
+        </ul>
+
+        <p>
+          This setup is a strong base for tasks like summarizing leads,
+          generating quick internal briefs, or routing requests to specific
+          sub-workflows.
+        </p>
+
+        <figure class="workflow-image">
+          <img
+            src="https://github.com/user-attachments/assets/3e890b48-7fea-42b5-9bb4-9f1202b5f873"
+            alt="n8n and Ollama assistant workflow"
+          />
+          <figcaption>AI assistant pipeline built with n8n and Ollama.</figcaption>
+        </figure>
+      </section>
+
+      <section class="card conclusion">
+        <h2>Final Thoughts</h2>
+        <p>
+          These three workflows show a practical progression in n8n:
+          <strong>API automation</strong>, <strong>operations workflow</strong>, and
+          <strong>AI-powered orchestration</strong>. Even with simple nodes, you
+          can build reliable systems that remove manual work and improve response
+          speed.
+        </p>
+        <p>
+          If you are getting started, clone one workflow first, run it manually,
+          and then add scheduling, retries, and notifications once the base flow
+          is stable.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        Built from my n8n workflow experiments and published with GitHub Pages.
+      </div>
+    </footer>
+  </body>
+</html>
